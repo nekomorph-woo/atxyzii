@@ -78,16 +78,6 @@
 * [15-footnote-editing.md](15-footnote-editing.md)\
   脚注编辑。实现引用和定义之间的可视化跳转。
 
-## v0.6 - 输入输出能力
-
-目标：改善跨工具粘贴和内容迁移体验。
-
-* [16-paste-cleanup.md](16-paste-cleanup.md)\
-  粘贴清理。将网页、Word、Notion 等来源清理为干净 Markdown。
-
-* [18-copy-as-html.md](18-copy-as-html.md)\
-  复制为 HTML。支持整篇和选区复制，剪贴板同时写入 HTML 与纯文本。
-
 ## 推荐首个开发切片
 
 如果只启动一个小版本，建议 v0.2 按以下顺序实施：
@@ -112,3 +102,8 @@
 
 <br />
 
+<br />
+
+<br />
+
+<br />
