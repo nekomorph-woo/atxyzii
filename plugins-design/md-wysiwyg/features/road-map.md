@@ -78,6 +78,16 @@
 * [15-footnote-editing.md](15-footnote-editing.md)\
   脚注编辑。实现引用和定义之间的可视化跳转。
 
+## v0.6 - 资源与长文档维护
+
+目标：补齐图片资源本地化、资产管理和 WYSIWYG 搜索替换能力，让插件更适合长期维护图文技术文档。
+
+* [19-image-asset-management.md](19-image-asset-management.md)\
+  图片资产管理与可靠本地化。支持配置 assets 目录、可靠粘贴/截图落盘、相对路径预览、资产预览、引用追踪、未引用清理和重命名同步引用。
+
+* [20-document-search-replace.md](20-document-search-replace.md)\
+  WYSIWYG 搜索与替换。补齐源码模式之外的查找、跳转和安全替换能力，快捷键使用 `Alt+F` / `Alt+R` 避免覆盖 Pulsar 原生搜索。
+
 ## 推荐首个开发切片
 
 如果只启动一个小版本，建议 v0.2 按以下顺序实施：
@@ -99,11 +109,3 @@
 4. 代码块语言选择器。
 
 这组功能会让插件从“可以渲染和编辑 Markdown”变成“可以舒服地创建 Markdown 结构”。
-
-<br />
-
-<br />
-
-<br />
-
-<br />

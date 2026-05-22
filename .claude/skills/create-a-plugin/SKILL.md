@@ -27,13 +27,15 @@ description: 创建新的 Atom/Pulsar 插件独立仓库，并把它作为 tk-AT
 |--------|--------|------|
 | `my-package` | 插件名（全小写连字符） | `atom-word-count` |
 | `MyPackage` | 驼峰形式 | `AtomWordCount` |
+| `<OWNER>` | GitHub owner 或组织名 | `nekomorph-woo` |
 | `A short description of your package` | 根据意图生成的描述 | — |
 
 文件重命名：所有 `my-package*` 文件名替换为 `<PLUGIN_NAME>*`。
 
 重要：
 - 用 `cp -r` 复制后做替换，不修改 `reference/` 下的模板
-- `my-package` 和 `MyPackage` 的所有出现都要替换（注释、CSS 类名、命令名）
+- `my-package`、`MyPackage` 和 `<OWNER>` 的所有出现都要替换（注释、CSS 类名、命令名、`package.json.repository`）
+- `package.json.repository` 必须指向插件独立源码仓库：`https://github.com/<OWNER>/<PLUGIN_NAME>`，不要指向 `tk-ATx`
 - 完成后用 `find` 展示目录结构确认
 
 ### 3. 创建 GitHub 仓库

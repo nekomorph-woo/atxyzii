@@ -1,100 +1,59 @@
 # tk-ATx
 
-个人 Pulsar 插件合集。每个插件子目录都是一个 Git submodule，对应一个独立 GitHub 仓库，可单独安装、开发和发布。
+个人 Pulsar 插件合集。普通用户建议直接从单个插件的 GitHub 源码仓库安装，不需要 clone 整个 `tk-ATx`。
 
-## 插件列表
+## 插件
 
-### md-wysiwyg
+| 插件 | 功能描述 |
+| --- | --- |
+| [md-wysiwyg](https://github.com/nekomorph-woo/md-wysiwyg) | Markdown 所见即所得编辑器，支持 WYSIWYG/源码切换、GFM、表格、任务列表、图片资产、Mermaid、数学公式、搜索替换和大纲导航。 |
+| [html-live-view](https://github.com/nekomorph-woo/html-live-view) | HTML 实时预览插件，用于在 Pulsar 中查看 HTML 文件并保留页面内 JS/CSS 交互。 |
 
-Typora 级别的所见即所得 Markdown 编辑器，基于 Milkdown（ProseMirror 驱动）。
+## 从 GitHub 安装单个插件
 
-* GFM 完整支持（表格、任务列表、删除线）
-
-* KaTeX 数学公式（`$...$` / `$$...$$`）
-
-* Mermaid 图表渲染（流程图、时序图等）
-
-* highlight.js 代码高亮（18 种语言）
-
-* 选中 mark 元素时展开为原始分隔符语法编辑
-
-* `Alt+W` 一键切换 WYSIWYG / 源码模式
-
-* 编辑器宽度、字体大小可配置
-
-## 安装
-
-### 前提
-
-* [Pulsar](https://pulsar-edit.dev/)（Atom 的社区延续版本）
-
-* Node.js 18+
-
-### 准备源码
+以 `md-wysiwyg` 为例：
 
 ```bash
-git clone --recurse-submodules https://github.com/nekomorph-woo/tk-ATx.git
-cd tk-ATx/md-wysiwyg
+mkdir -p ~/.pulsar/packages
+git clone https://github.com/nekomorph-woo/md-wysiwyg.git ~/.pulsar/packages/md-wysiwyg
+cd ~/.pulsar/packages/md-wysiwyg
 npm install
 npm run build
 ```
 
-如果已经用普通 `git clone` 拉取了主仓库，执行：
+然后重启 Pulsar，或在 Pulsar 中执行 `Window: Reload`。
+
+如果要安装其他插件，把仓库地址和目录名替换为对应插件即可：
 
 ```bash
-git submodule update --init --recursive
+mkdir -p ~/.pulsar/packages
+git clone https://github.com/nekomorph-woo/<plugin-name>.git ~/.pulsar/packages/<plugin-name>
+cd ~/.pulsar/packages/<plugin-name>
+npm install
+npm run build
 ```
 
-如果 `pulsar -p` 不可用，先在 Pulsar 菜单中执行 **Pulsar > Install Shell Commands**。
+如果插件没有 `build` 脚本，`npm run build` 可以跳过。
 
-### 本地开发安装
+## 更新单个插件
 
-```bash
-cd /path/to/tk-ATx/md-wysiwyg
-pulsar -p install
-pulsar -p link --dev
-pulsar --dev /path/to/tk-ATx/md-wysiwyg
-```
-
-开发窗口打开后，在 `.md` 文件中按 `Alt+W` 触发插件。
-
-### 日常使用安装
+进入已安装插件目录后拉取最新代码，并重新安装依赖和构建：
 
 ```bash
-cd /path/to/tk-ATx/md-wysiwyg
-pulsar -p install
-pulsar -p link
-```
-
-安装完成后重启 Pulsar，或按 `Cmd+Shift+F5` 重载。
-
-### 更新
-
-```bash
-cd /path/to/tk-ATx
+cd ~/.pulsar/packages/<plugin-name>
 git pull
-git submodule update --init --recursive
-cd md-wysiwyg
 npm install
 npm run build
 ```
 
-然后 `Cmd+Shift+F5` 重载 Pulsar。
+然后重启 Pulsar，或执行 `Window: Reload`。
 
-## 使用
+## 移除单个插件
 
-### md-wysiwyg
+删除对应插件目录即可：
 
-打开任意 `.md` 文件，按 `Alt+W` 切换到 WYSIWYG 渲染视图，再按 `Alt+W` 切换回源码。
+```bash
+rm -rf ~/.pulsar/packages/<plugin-name>
+```
 
-也可通过菜单 **Packages > Markdown WYSIWYG > Toggle WYSIWYG** 或右键菜单切换。
-
-#### 配置
-
-在 Pulsar Settings > Packages > Markdown WYSIWYG 中调整：
-
-| 配置项                  | 默认值 | 说明                   |
-| -------------------- | --- | -------------------- |
-| Editor Max Width     | 900 | 编辑器内容区最大宽度（px）       |
-| Font Size            | 0   | 自定义字体大小，0 = 跟随主题     |
-| Mermaid Render Delay | 500 | Mermaid 图表渲染防抖延迟（ms） |
+然后重启 Pulsar，或执行 `Window: Reload`。
