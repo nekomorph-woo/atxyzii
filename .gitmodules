@@ -2,3 +2,11 @@
 	path = md-wysiwyg
 	url = https://github.com/nekomorph-woo/md-wysiwyg.git
 	branch = main
+[submodule "html-live-view"]
+	path = html-live-view
+	url = https://github.com/nekomorph-woo/html-live-view.git
+	branch = main
+[submodule "code-hopper"]
+	path = code-hopper
+	url = https://github.com/nekomorph-woo/code-hopper.git
+	branch = main
