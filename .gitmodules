@@ -10,3 +10,7 @@
 	path = code-hopper
 	url = https://github.com/nekomorph-woo/code-hopper.git
 	branch = main
+[submodule "language-atx-stack"]
+	path = language-atx-stack
+	url = https://github.com/nekomorph-woo/language-atx-stack.git
+	branch = main

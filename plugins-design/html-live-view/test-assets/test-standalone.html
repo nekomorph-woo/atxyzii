@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Standalone Test</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 24px 20px;
+      color: #2c3e50;
+      background: #ffffff;
+      line-height: 1.6;
+    }
+
+    h1 {
+      font-size: 24px;
+      border-bottom: 3px solid #e74c3c;
+      padding-bottom: 8px;
+      margin-bottom: 24px;
+    }
+
+    .card {
+      background: rgba(0,0,0,0.03);
+      border: 1px solid #e0e0e0
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .card h2 {
+      font-size: 16px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+      vertical-align: middle;
+    }
+    .tag-green { background: #27ae60; }
+    .tag-blue  { background: #2980b9; }
+    .tag-amber { background: #f39c12; }
+
+    button {
+      padding: 5px 14px;
+      border: 1px solid #bbb;
+      border-radius: 4px;
+      background: #fafafa;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    button:hover { background: #eee; }
+
+    input[type="text"], input[type="color"] {
+      padding: 5px 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+
+    .counter-display {
+      display: inline-block;
+      min-width: 40px;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+      color: #e74c3c;
+    }
+
+    .box {
+      width: 60px;
+      height: 60px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #fff;
+      margin: 4px;
+    }
+
+    a { color: #2980b9; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    #log-area {
+      max-height: 120px;
+      overflow-y: auto;
+      font-family: monospace;
+      font-size: 12px;
+      padding: 8px;
+      background: #1e1e1e;
+      color: #d4d4d4;
+      border-radius: 4px;
+      margin-top: 8px;
+    }
+    #log-area .log-entry { margin: 2px 0; }
+    #log-area .log-warn { color: #dcdcaa; }
+    #log-area .log-error { color: #f44747; }
+    #log-area .log-info { color: #9cdcfe; }
+  </style>
+</head>
+<body>
+
+  <h1>html-live-view Standalone Test v2</h1>
+
+  <!-- JS Execution -->
+  <div class="card">
+    <h2><span class="tag tag-green">01</span> Core Rendering</h2>
+    <p id="js-indicator" style="color:#999;">JS not running...</p>
+  </div>
+
+  <!-- Interactive State -->
+  <div class="card">
+    <h2><span class="tag tag-green">01</span> JS Interaction</h2>
+    <p>
+      Counter: <span class="counter-display" id="counter">0</span>
+      <button id="btn-inc">+1</button>
+      <button id="btn-dec">-1</button>
+      <button id="btn-reset">Reset</button>
+    </p>
+    <p style="margin-top:8px;">
+      Pick a color: <input type="color" id="color-picker" value="#e74c3c">
+      <span class="box" id="color-box" style="background:#e74c3c;">■</span>
+    </p>
+  </div>
+
+  <!-- CSS Animation -->
+  <div class="card">
+    <h2><span class="tag tag-green">01</span> CSS Animation</h2>
+    <button id="btn-anim">Toggle Spin</button>
+    <div class="box" id="spin-box" style="background:#27ae60; font-size:24px;">↻</div>
+  </div>
+
+  <!-- Links -->
+  <div class="card">
+    <h2><span class="tag tag-green">04</span> Link Navigation</h2>
+    <a href="#bottom">Jump to bottom anchor</a> |
+    <a href="https://pulsar-edit.dev">External: pulsar-edit.dev</a> |
+    <a href="mailto:test@example.com">Email</a>
+  </div>
+
+  <!-- Console Forwarding -->
+  <div class="card">
+    <h2><span class="tag tag-blue">06</span> Console Forwarding</h2>
+    <p>Click buttons, check Pulsar DevTools (<code>Alt+Cmd+I</code>) for <code>[html-live-view]</code> messages.</p>
+    <button id="btn-log">console.log</button>
+    <button id="btn-warn">console.warn</button>
+    <button id="btn-error">console.error</button>
+    <button id="btn-info">console.info</button>
+    <p style="margin-top:8px;">
+      <button id="btn-onerror">Trigger onerror</button>
+      <button id="btn-reject">Trigger unhandledrejection</button>
+    </p>
+  </div>
+
+  <!-- Sandbox -->
+  <div class="card">
+    <h2><span class="tag tag-amber">01</span> Sandbox</h2>
+    <form id="test-form">
+      <input type="text" placeholder="Form input...">
+      <button type="submit">Submit</button>
+    </form>
+    <p id="form-msg" style="margin-top:6px; color:#27ae60; font-weight:bold;"></p>
+    <p style="margin-top:8px;">
+      <button id="btn-alert">alert()</button>
+      <button id="btn-open">window.open()</button>
+    </p>
+  </div>
+
+  <!-- Anchor target -->
+  <div class="card" id="bottom">
+    <h2><span class="tag tag-blue">Anchor</span> You scrolled here</h2>
+    <a href="#">Back to top ↑</a>
+  </div>
+
+  <script>
+    // --- JS Execution Indicator ---
+    document.getElementById('js-indicator').textContent = 'JS is running!';
+    document.getElementById('js-indicator').style.color = '#27ae60';
+
+    // --- Counter ---
+    var count = 0;
+    var counterEl = document.getElementById('counter');
+    function updateCounter() { counterEl.textContent = count; }
+    document.getElementById('btn-inc').addEventListener('click', function() { count++; updateCounter(); });
+    document.getElementById('btn-dec').addEventListener('click', function() { count--; updateCounter(); });
+    document.getElementById('btn-reset').addEventListener('click', function() { count = 0; updateCounter(); });
+
+    // --- Color Picker ---
+    document.getElementById('color-picker').addEventListener('input', function(e) {
+      document.getElementById('color-box').style.background = e.target.value;
+    });
+
+    // --- Animation ---
+    var spinning = false;
+    var spinBox = document.getElementById('spin-box');
+    document.getElementById('btn-anim').addEventListener('click', function() {
+      spinning = !spinning;
+      spinBox.style.animation = spinning ? 'spin 1s linear infinite' : 'none';
+    });
+    // Inject keyframes
+    var styleEl = document.createElement('style');
+    styleEl.textContent = '@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }';
+    document.head.appendChild(styleEl);
+
+    // --- Console Buttons ---
+    document.getElementById('btn-log').addEventListener('click', function() {
+      console.log('Hello from standalone test!');
+    });
+    document.getElementById('btn-warn').addEventListener('click', function() {
+      console.warn('This is a warning');
+    });
+    document.getElementById('btn-error').addEventListener('click', function() {
+      console.error('This is an error');
+    });
+    document.getElementById('btn-info').addEventListener('click', function() {
+      console.info('This is info');
+    });
+
+    // --- Error Triggers ---
+    document.getElementById('btn-onerror').addEventListener('click', function() {
+      try { nonexistentFunction(); } catch(e) { throw e; }
+    });
+    document.getElementById('btn-reject').addEventListener('click', function() {
+      Promise.reject('test rejection');
+    });
+
+    // --- Form ---
+    document.getElementById('test-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      document.getElementById('form-msg').textContent = 'Form submitted!';
+      setTimeout(function() { document.getElementById('form-msg').textContent = ''; }, 2000);
+    });
+
+    // --- Sandbox Buttons ---
+    document.getElementById('btn-alert').addEventListener('click', function() {
+      alert('Sandbox: allow-modals test');
+    });
+    document.getElementById('btn-open').addEventListener('click', function() {
+      window.open('https://pulsar-edit.dev');
+    });
+  </script>
+
+</body>
+</html>

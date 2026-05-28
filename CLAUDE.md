@@ -35,7 +35,7 @@ tk-ATx/
 
 ## 开发验证
 
-* 本地开发安装使用：`cd /path/to/<plugin-name>` → `pulsar -p install` → `pulsar -p link --dev` → `pulsar --dev /path/to/<plugin-name>`
+* 本地开发安装使用：`ln -s /path/to/<plugin-name> ~/.pulsar/packages/<plugin-name>`（不要用 `pulsar -p link --dev`，该命令将 symlink 放到 dev 目录，Pulsar 无法可靠加载）
 
 * `Cmd+Shift+F5`（`window:reload`）热重载插件
 

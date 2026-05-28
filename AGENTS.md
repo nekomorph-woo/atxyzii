@@ -35,7 +35,14 @@ tk-ATx/
 
 ## 开发验证
 
-* 本地开发安装使用：`cd /path/to/<plugin-name>` → `pulsar -p install` → `pulsar -p link --dev` → `pulsar --dev /path/to/<plugin-name>`
+* 本地开发安装使用手动 symlink：`ln -s /path/to/<plugin-name> ~/.pulsar/packages/<plugin-name>`
+
+* 不要使用 `pulsar -p link --dev`。该命令会把 symlink 放到 `~/.pulsar/dev/packages/`，Pulsar 无法可靠加载该路径；`html-live-view` 开发中已遇到 dev symlink 不识别的问题，手动 symlink 到 `~/.pulsar/packages/` 后立即生效。`md-wysiwyg` 正常工作也是通过此路径。
+
+* 排查包不加载时按顺序检查：
+  1. `ls -la ~/.pulsar/packages/<plugin-name>` — 确认 symlink 指向正确
+  2. `python3 -m json.tool package.json` — 确认 JSON 合法
+  3. `node --check lib/<plugin-name>.js` — 确认主模块无语法错误
 
 * `Cmd+Shift+F5`（`window:reload`）热重载插件
 

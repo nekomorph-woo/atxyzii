@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>html-live-view Test Page</title>
+  <link rel="stylesheet" href="test-external.css">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      color: var(--host-text, #333);
+      background-color: var(--host-bg, #fff);
+      transition: background-color 0.3s;
+    }
+
+    h1 { border-bottom: 2px solid #4a90d9; padding-bottom: 8px; }
+
+    section {
+      margin: 24px 0;
+      padding: 16px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      background: rgba(0,0,0,0.02);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: bold;
+      color: #fff;
+    }
+    .badge-ok { background: #4caf50; }
+    .badge-info { background: #2196f3; }
+    .badge-warn { background: #ff9800; }
+
+    button {
+      padding: 6px 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      background: #f5f5f5;
+    }
+    button:hover { background: #e0e0e0; }
+
+    input[type="text"] {
+      padding: 6px 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    #form-result { margin-top: 8px; color: #4caf50; font-weight: bold; }
+
+    a { color: #4a90d9; }
+    a:hover { text-decoration: underline; }
+
+    .theme-info {
+      font-family: monospace;
+      padding: 8px 12px;
+      background: #f0f0f0;
+      border-radius: 4px;
+      margin: 8px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>html-live-view Test Page</h1>
+  <p>A self-contained test page for verifying all v0.1 + v0.2 features.</p>
+
+  <!-- Section 1: Core Rendering -->
+  <section>
+    <h2><span class="badge badge-ok">01</span> Core Rendering</h2>
+    <p>If you see this styled page with a blue heading, the iframe renders HTML+CSS correctly.</p>
+    <div id="js-check">
+      <p style="color:#999;">JS status: <span id="js-status">checking...</span></p>
+    </div>
+    <script>
+      document.getElementById('js-status').textContent = 'JS is running!';
+      document.getElementById('js-status').style.color = '#4caf50';
+    </script>
+  </section>
+
+  <!-- Section 2: Relative Path Resolver -->
+  <section>
+    <h2><span class="badge badge-ok">03</span> Relative Path Resolver</h2>
+    <p>The blue banner below is loaded from <code>test-external.css</code>. The counter is from <code>test-external.js</code>.</p>
+    <div class="external-css-banner">This text styled by test-external.css</div>
+    <p>External JS counter: <strong id="counter">0</strong>
+      <button onclick="incrementCounter()">+1</button>
+    </p>
+    <script src="test-external.js"></script>
+  </section>
+
+  <!-- Section 3: Link Navigation -->
+  <section>
+    <h2><span class="badge badge-ok">04</span> Link Navigation</h2>
+    <p>Anchor links should scroll within the iframe:</p>
+    <ul>
+      <li><a href="#section-anchor">Jump to anchor target below</a></li>
+      <li><a href="https://pulsar-edit.dev" target="_blank">External link: pulsar-edit.dev</a> (should open in system browser)</li>
+      <li><a href="mailto:test@example.com">Mail link</a> (should open in system email client)</li>
+    </ul>
+  </section>
+
+  <!-- Anchor target -->
+  <section id="section-anchor">
+    <h2><span class="badge badge-info">Anchor</span> Anchor Target</h2>
+    <p>You scrolled here via the anchor link above.</p>
+    <a href="#">Back to top</a>
+  </section>
+
+  <!-- Section 4: Console Forwarding -->
+  <section>
+    <h2><span class="badge badge-ok">06</span> Console Forwarding</h2>
+    <p>Click each button, then check Pulsar developer console (<code>Alt+Cmd+I</code>) for <code>[html-live-view]</code> prefixed messages.</p>
+    <button onclick="console.log('Hello from iframe!')">console.log</button>
+    <button onclick="console.warn('Warning from iframe!')">console.warn</button>
+    <button onclick="console.error('Error from iframe!')">console.error</button>
+    <button onclick="console.info('Info from iframe!')">console.info</button>
+  </section>
+
+  <!-- Section 5: Error Capture -->
+  <section>
+    <h2><span class="badge badge-warn">06</span> Error Capture</h2>
+    <p>Trigger errors and check Pulsar console for <code>[html-live-view]</code> output.</p>
+    <button onclick="triggerError()">Trigger window.onerror</button>
+    <button onclick="triggerRejection()">Trigger unhandledrejection</button>
+    <script>
+      function triggerError() {
+        try { undefinedFunc(); } catch(e) { throw e; }
+      }
+      function triggerRejection() {
+        Promise.reject('Test unhandled rejection');
+      }
+    </script>
+  </section>
+
+  <!-- Section 6: Theme Adaptation -->
+  <section>
+    <h2><span class="badge badge-info">07</span> Theme Adaptation</h2>
+    <p>Switch editor theme (One Dark / Light). The box below should update:</p>
+    <div class="theme-info" id="theme-info">Detecting theme...</div>
+    <p>Text color uses <code>var(--host-text)</code>, background uses <code>var(--host-bg)</code> — these change with theme.</p>
+    <script>
+      function updateThemeInfo() {
+        var el = document.getElementById('theme-info');
+        var theme = document.documentElement.getAttribute('data-theme') || 'not set';
+        el.textContent = 'data-theme="' + theme + '" | --host-theme: ' +
+          getComputedStyle(document.documentElement).getPropertyValue('--host-theme').trim() +
+          ' | --host-bg: ' + getComputedStyle(document.documentElement).getPropertyValue('--host-bg').trim();
+      }
+      updateThemeInfo();
+      setInterval(updateThemeInfo, 1000);
+    </script>
+  </section>
+
+  <!-- Section 7: Sandbox -->
+  <section>
+    <h2><span class="badge badge-warn">01</span> Sandbox Behavior</h2>
+    <p>Test sandbox permissions (requires config changes to test different modes):</p>
+    <form onsubmit="document.getElementById('form-result').textContent='Form submitted!'; return false;">
+      <input type="text" placeholder="Type something..." id="sandbox-input">
+      <button type="submit">Submit Form</button>
+    </form>
+    <div id="form-result"></div>
+    <p style="margin-top:8px;">
+      <button onclick="alert('If you see this, allow-modals is enabled')">Test alert()</button>
+      <button onclick="window.open('https://pulsar-edit.dev')">Test window.open()</button>
+    </p>
+  </section>
+
+  <!-- Section 8: Live Reload -->
+  <section>
+    <h2><span class="badge badge-ok">02</span> Live Reload</h2>
+    <p>Edit this file in source mode, switch to preview, then edit in another editor or split pane.</p>
+    <p>Change the text below and save — preview should update after debounce delay:</p>
+    <div style="padding:8px; background:#e8f5e9; border-radius:4px; font-size:18px;">
+      Edit me: <span id="live-reload-text">Hello World!</span>
+    </div>
+  </section>
+
+  <hr>
+  <p style="text-align:center; color:#999; font-size:12px;">
+    html-live-view test page &mdash; v0.1 + v0.2 coverage
+  </p>
+
+</body>
+</html>

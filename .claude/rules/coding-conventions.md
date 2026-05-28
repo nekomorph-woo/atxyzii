@@ -77,3 +77,23 @@
 | 长输出任务 | 结果可能较大的搜索或分析，避免污染主上下文 |
 
 **不使用 subagent 的场景**：直接文件读取（用 Read）、定向文件搜索（用 Glob/Grep）、需要主流程决策的任务。
+
+## 6. Pulsar 插件开发验证
+
+### 本地安装
+
+使用手动 symlink 安装，**不要使用 `pulsar -p link --dev`**（该命令将 symlink 放到 `~/.pulsar/dev/packages/`，Pulsar 无法可靠加载该路径）：
+
+```bash
+ln -s /path/to/<plugin-name> ~/.pulsar/packages/<plugin-name>
+```
+
+**Why**: html-live-view 开发中 `pulsar -p link --dev` 创建的 dev symlink 未被 Pulsar 识别，手动 symlink 到 `~/.pulsar/packages/` 后立即生效。md-wysiwyg 正常工作也是通过此路径。
+
+### 排查包不加载
+
+按以下顺序检查：
+1. `ls -la ~/.pulsar/packages/<plugin-name>` — 确认 symlink 指向正确
+2. `python3 -m json.tool < package.json` — 确认 JSON 合法
+3. `node --check lib/<plugin-name>.js` — 确认主模块无语法错误
+4. `Cmd+Shift+F5` (window:reload) 或重启 Pulsar

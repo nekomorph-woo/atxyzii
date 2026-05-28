@@ -88,6 +88,13 @@
 * [20-document-search-replace.md](20-document-search-replace.md)\
   WYSIWYG 搜索与替换。补齐源码模式之外的查找、跳转和安全替换能力，快捷键使用 `Alt+F` / `Alt+R` 避免覆盖 Pulsar 原生搜索。
 
+## v0.7 - HTML 块编辑兼容性
+
+目标：补齐常见原生 HTML 片段在 WYSIWYG 中的编辑体验，避免浏览器默认控件行为破坏选择、复制和源码切换。
+
+* [21-html-native-blocks-compatibility.md](21-html-native-blocks-compatibility.md)\
+  原生 HTML 块与行内标签兼容。优先支持 `<details>` / `<summary>`、`<kbd>`、`<mark>`、`<sub>` / `<sup>` 等常见标签的可选择、可复制、可编辑体验；复杂 HTML 先以安全占位和源码编辑处理。
+
 ## 推荐首个开发切片
 
 如果只启动一个小版本，建议 v0.2 按以下顺序实施：
