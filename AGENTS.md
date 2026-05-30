@@ -17,6 +17,14 @@ tk-ATx/
 
 克隆项目时使用 `git clone --recurse-submodules <repo-url>`，或克隆后执行 `git submodule update --init --recursive`。
 
+## Submodule 分支规则
+
+* 主仓库中的插件 submodule 指针必须指向对应插件仓库 `main` 分支上的提交。
+
+* 如果插件开发发生在功能分支，必须先在插件仓库创建 PR 并合并到 `main`，再更新主仓库 submodule 指针；不要让主仓库指向插件功能分支、临时分支或未合并提交。
+
+* 更新 submodule 时先在插件目录执行 `git switch main && git pull --ff-only origin main`，再回到主仓库提交 submodule 指针。
+
 ## 插件开发准则
 
 * 使用 ES6 Module 语法（`import`/`export`），语言为 JavaScript
